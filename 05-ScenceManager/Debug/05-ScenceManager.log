@@ -1,0 +1,93 @@
+﻿  Animations.cpp
+  Brick.cpp
+  Koopas.cpp
+  Portal.cpp
+C:\Users\user\Downloads\gamedev-intro-tutorials-master\gamedev-intro-tutorials-master\05-ScenceManager\Portal.cpp(9,16): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+C:\Users\user\Downloads\gamedev-intro-tutorials-master\gamedev-intro-tutorials-master\05-ScenceManager\Portal.cpp(10,17): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+  Utils.cpp
+C:\Users\user\Downloads\gamedev-intro-tutorials-master\gamedev-intro-tutorials-master\05-ScenceManager\Utils.h(18,8): error C2065: 'string': undeclared identifier
+C:\Users\user\Downloads\gamedev-intro-tutorials-master\gamedev-intro-tutorials-master\05-ScenceManager\Utils.h(18,1): error C2923: 'std::vector': 'string' is not a valid template type argument for parameter '_Ty'
+C:\Users\user\Downloads\gamedev-intro-tutorials-master\gamedev-intro-tutorials-master\05-ScenceManager\Utils.h(18,1): error C2976: 'std::vector': too few template arguments
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.27.29110\include\vector(413): message : see declaration of 'std::vector'
+C:\Users\user\Downloads\gamedev-intro-tutorials-master\gamedev-intro-tutorials-master\05-ScenceManager\Utils.h(18,22): error C2065: 'string': undeclared identifier
+C:\Users\user\Downloads\gamedev-intro-tutorials-master\gamedev-intro-tutorials-master\05-ScenceManager\Utils.h(18,29): error C2146: syntax error: missing ')' before identifier 'line'
+C:\Users\user\Downloads\gamedev-intro-tutorials-master\gamedev-intro-tutorials-master\05-ScenceManager\Utils.h(19,15): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+C:\Users\user\Downloads\gamedev-intro-tutorials-master\gamedev-intro-tutorials-master\05-ScenceManager\Utils.h(19,9): error C2146: syntax error: missing ';' before identifier 'ToWSTR'
+C:\Users\user\Downloads\gamedev-intro-tutorials-master\gamedev-intro-tutorials-master\05-ScenceManager\Utils.h(21,19): error C2065: 'string': undeclared identifier
+C:\Users\user\Downloads\gamedev-intro-tutorials-master\gamedev-intro-tutorials-master\05-ScenceManager\Utils.h(21,26): error C2146: syntax error: missing ')' before identifier 'st'
+C:\Users\user\Downloads\gamedev-intro-tutorials-master\gamedev-intro-tutorials-master\05-ScenceManager\Utils.cpp(15,8): error C2065: 'string': undeclared identifier
+C:\Users\user\Downloads\gamedev-intro-tutorials-master\gamedev-intro-tutorials-master\05-ScenceManager\Utils.cpp(15,1): error C2923: 'std::vector': 'string' is not a valid template type argument for parameter '_Ty'
+C:\Users\user\Downloads\gamedev-intro-tutorials-master\gamedev-intro-tutorials-master\05-ScenceManager\Utils.cpp(15,1): error C2976: 'std::vector': too few template arguments
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.27.29110\include\vector(413): message : see declaration of 'std::vector'
+C:\Users\user\Downloads\gamedev-intro-tutorials-master\gamedev-intro-tutorials-master\05-ScenceManager\Utils.cpp(15,22): error C2065: 'string': undeclared identifier
+C:\Users\user\Downloads\gamedev-intro-tutorials-master\gamedev-intro-tutorials-master\05-ScenceManager\Utils.cpp(15,29): error C2146: syntax error: missing ')' before identifier 'line'
+C:\Users\user\Downloads\gamedev-intro-tutorials-master\gamedev-intro-tutorials-master\05-ScenceManager\Utils.cpp(16,1): error C2143: syntax error: missing ';' before '{'
+C:\Users\user\Downloads\gamedev-intro-tutorials-master\gamedev-intro-tutorials-master\05-ScenceManager\Utils.cpp(16,1): error C2447: '{': missing function header (old-style formal list?)
+C:\Users\user\Downloads\gamedev-intro-tutorials-master\gamedev-intro-tutorials-master\05-ScenceManager\Utils.cpp(32,15): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+C:\Users\user\Downloads\gamedev-intro-tutorials-master\gamedev-intro-tutorials-master\05-ScenceManager\Utils.cpp(32,1): error C2086: 'int wstring': redefinition
+C:\Users\user\Downloads\gamedev-intro-tutorials-master\gamedev-intro-tutorials-master\05-ScenceManager\Utils.h(19): message : see declaration of 'wstring'
+C:\Users\user\Downloads\gamedev-intro-tutorials-master\gamedev-intro-tutorials-master\05-ScenceManager\Utils.cpp(32,9): error C2146: syntax error: missing ';' before identifier 'ToWSTR'
+C:\Users\user\Downloads\gamedev-intro-tutorials-master\gamedev-intro-tutorials-master\05-ScenceManager\Utils.cpp(33,1): error C2143: syntax error: missing ';' before '{'
+C:\Users\user\Downloads\gamedev-intro-tutorials-master\gamedev-intro-tutorials-master\05-ScenceManager\Utils.cpp(33,1): error C2447: '{': missing function header (old-style formal list?)
+C:\Users\user\Downloads\gamedev-intro-tutorials-master\gamedev-intro-tutorials-master\05-ScenceManager\Utils.cpp(50,19): error C2065: 'string': undeclared identifier
+C:\Users\user\Downloads\gamedev-intro-tutorials-master\gamedev-intro-tutorials-master\05-ScenceManager\Utils.cpp(50,26): error C2146: syntax error: missing ')' before identifier 'st'
+C:\Users\user\Downloads\gamedev-intro-tutorials-master\gamedev-intro-tutorials-master\05-ScenceManager\Utils.cpp(51,1): error C2143: syntax error: missing ';' before '{'
+C:\Users\user\Downloads\gamedev-intro-tutorials-master\gamedev-intro-tutorials-master\05-ScenceManager\Utils.cpp(51,1): error C2447: '{': missing function header (old-style formal list?)
+  Game.cpp
+  GameObject.cpp
+C:\Users\user\Downloads\gamedev-intro-tutorials-master\gamedev-intro-tutorials-master\05-ScenceManager\Utils.h(18,8): error C2065: 'string': undeclared identifier
+C:\Users\user\Downloads\gamedev-intro-tutorials-master\gamedev-intro-tutorials-master\05-ScenceManager\Utils.h(18,1): error C2923: 'std::vector': 'string' is not a valid template type argument for parameter '_Ty'
+C:\Users\user\Downloads\gamedev-intro-tutorials-master\gamedev-intro-tutorials-master\05-ScenceManager\Utils.h(18,1): error C2976: 'std::vector': too few template arguments
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.27.29110\include\vector(413): message : see declaration of 'std::vector'
+C:\Users\user\Downloads\gamedev-intro-tutorials-master\gamedev-intro-tutorials-master\05-ScenceManager\Utils.h(18,22): error C2065: 'string': undeclared identifier
+C:\Users\user\Downloads\gamedev-intro-tutorials-master\gamedev-intro-tutorials-master\05-ScenceManager\Utils.h(18,29): error C2146: syntax error: missing ')' before identifier 'line'
+C:\Users\user\Downloads\gamedev-intro-tutorials-master\gamedev-intro-tutorials-master\05-ScenceManager\Utils.h(19,15): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+C:\Users\user\Downloads\gamedev-intro-tutorials-master\gamedev-intro-tutorials-master\05-ScenceManager\Utils.h(19,9): error C2146: syntax error: missing ';' before identifier 'ToWSTR'
+C:\Users\user\Downloads\gamedev-intro-tutorials-master\gamedev-intro-tutorials-master\05-ScenceManager\Utils.h(21,19): error C2065: 'string': undeclared identifier
+C:\Users\user\Downloads\gamedev-intro-tutorials-master\gamedev-intro-tutorials-master\05-ScenceManager\Utils.h(21,26): error C2146: syntax error: missing ')' before identifier 'st'
+  Goomba.cpp
+  main.cpp
+C:\Users\user\Downloads\gamedev-intro-tutorials-master\gamedev-intro-tutorials-master\05-ScenceManager\Utils.h(18,8): error C2065: 'string': undeclared identifier
+C:\Users\user\Downloads\gamedev-intro-tutorials-master\gamedev-intro-tutorials-master\05-ScenceManager\Utils.h(18,1): error C2923: 'std::vector': 'string' is not a valid template type argument for parameter '_Ty'
+C:\Users\user\Downloads\gamedev-intro-tutorials-master\gamedev-intro-tutorials-master\05-ScenceManager\Utils.h(18,1): error C2976: 'std::vector': too few template arguments
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.27.29110\include\vector(413): message : see declaration of 'std::vector'
+C:\Users\user\Downloads\gamedev-intro-tutorials-master\gamedev-intro-tutorials-master\05-ScenceManager\Utils.h(18,22): error C2065: 'string': undeclared identifier
+C:\Users\user\Downloads\gamedev-intro-tutorials-master\gamedev-intro-tutorials-master\05-ScenceManager\Utils.h(18,29): error C2146: syntax error: missing ')' before identifier 'line'
+C:\Users\user\Downloads\gamedev-intro-tutorials-master\gamedev-intro-tutorials-master\05-ScenceManager\Utils.h(19,15): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+C:\Users\user\Downloads\gamedev-intro-tutorials-master\gamedev-intro-tutorials-master\05-ScenceManager\Utils.h(19,9): error C2146: syntax error: missing ';' before identifier 'ToWSTR'
+C:\Users\user\Downloads\gamedev-intro-tutorials-master\gamedev-intro-tutorials-master\05-ScenceManager\Utils.h(21,19): error C2065: 'string': undeclared identifier
+C:\Users\user\Downloads\gamedev-intro-tutorials-master\gamedev-intro-tutorials-master\05-ScenceManager\Utils.h(21,26): error C2146: syntax error: missing ')' before identifier 'st'
+  Mario.cpp
+C:\Users\user\Downloads\gamedev-intro-tutorials-master\gamedev-intro-tutorials-master\05-ScenceManager\Utils.h(18,8): error C2065: 'string': undeclared identifier
+C:\Users\user\Downloads\gamedev-intro-tutorials-master\gamedev-intro-tutorials-master\05-ScenceManager\Utils.h(18,1): error C2923: 'std::vector': 'string' is not a valid template type argument for parameter '_Ty'
+C:\Users\user\Downloads\gamedev-intro-tutorials-master\gamedev-intro-tutorials-master\05-ScenceManager\Utils.h(18,1): error C2976: 'std::vector': too few template arguments
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.27.29110\include\vector(413): message : see declaration of 'std::vector'
+C:\Users\user\Downloads\gamedev-intro-tutorials-master\gamedev-intro-tutorials-master\05-ScenceManager\Utils.h(18,22): error C2065: 'string': undeclared identifier
+C:\Users\user\Downloads\gamedev-intro-tutorials-master\gamedev-intro-tutorials-master\05-ScenceManager\Utils.h(18,29): error C2146: syntax error: missing ')' before identifier 'line'
+C:\Users\user\Downloads\gamedev-intro-tutorials-master\gamedev-intro-tutorials-master\05-ScenceManager\Utils.h(19,15): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+C:\Users\user\Downloads\gamedev-intro-tutorials-master\gamedev-intro-tutorials-master\05-ScenceManager\Utils.h(19,9): error C2146: syntax error: missing ';' before identifier 'ToWSTR'
+C:\Users\user\Downloads\gamedev-intro-tutorials-master\gamedev-intro-tutorials-master\05-ScenceManager\Utils.h(21,19): error C2065: 'string': undeclared identifier
+C:\Users\user\Downloads\gamedev-intro-tutorials-master\gamedev-intro-tutorials-master\05-ScenceManager\Utils.h(21,26): error C2146: syntax error: missing ')' before identifier 'st'
+  PlayScence.cpp
+C:\Users\user\Downloads\gamedev-intro-tutorials-master\gamedev-intro-tutorials-master\05-ScenceManager\PlayScence.cpp(89,20): warning C4018: '<': signed/unsigned mismatch
+C:\Users\user\Downloads\gamedev-intro-tutorials-master\gamedev-intro-tutorials-master\05-ScenceManager\PlayScence.cpp(111,20): warning C4018: '<': signed/unsigned mismatch
+C:\Users\user\Downloads\gamedev-intro-tutorials-master\gamedev-intro-tutorials-master\05-ScenceManager\PlayScence.cpp(134,10): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+C:\Users\user\Downloads\gamedev-intro-tutorials-master\gamedev-intro-tutorials-master\05-ScenceManager\PlayScence.cpp(135,10): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+C:\Users\user\Downloads\gamedev-intro-tutorials-master\gamedev-intro-tutorials-master\05-ScenceManager\PlayScence.cpp(161,12): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+C:\Users\user\Downloads\gamedev-intro-tutorials-master\gamedev-intro-tutorials-master\05-ScenceManager\PlayScence.cpp(162,12): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+C:\Users\user\Downloads\gamedev-intro-tutorials-master\gamedev-intro-tutorials-master\05-ScenceManager\PlayScence.cpp(261,20): warning C4018: '<': signed/unsigned mismatch
+C:\Users\user\Downloads\gamedev-intro-tutorials-master\gamedev-intro-tutorials-master\05-ScenceManager\PlayScence.cpp(270,20): warning C4018: '<': signed/unsigned mismatch
+  Scence.cpp
+  Sprites.cpp
+  Textures.cpp
+C:\Users\user\Downloads\gamedev-intro-tutorials-master\gamedev-intro-tutorials-master\05-ScenceManager\Utils.h(18,8): error C2065: 'string': undeclared identifier
+C:\Users\user\Downloads\gamedev-intro-tutorials-master\gamedev-intro-tutorials-master\05-ScenceManager\Utils.h(18,1): error C2923: 'std::vector': 'string' is not a valid template type argument for parameter '_Ty'
+C:\Users\user\Downloads\gamedev-intro-tutorials-master\gamedev-intro-tutorials-master\05-ScenceManager\Utils.h(18,1): error C2976: 'std::vector': too few template arguments
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.27.29110\include\vector(413): message : see declaration of 'std::vector'
+C:\Users\user\Downloads\gamedev-intro-tutorials-master\gamedev-intro-tutorials-master\05-ScenceManager\Utils.h(18,22): error C2065: 'string': undeclared identifier
+C:\Users\user\Downloads\gamedev-intro-tutorials-master\gamedev-intro-tutorials-master\05-ScenceManager\Utils.h(18,29): error C2146: syntax error: missing ')' before identifier 'line'
+C:\Users\user\Downloads\gamedev-intro-tutorials-master\gamedev-intro-tutorials-master\05-ScenceManager\Utils.h(19,15): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+C:\Users\user\Downloads\gamedev-intro-tutorials-master\gamedev-intro-tutorials-master\05-ScenceManager\Utils.h(19,9): error C2146: syntax error: missing ';' before identifier 'ToWSTR'
+C:\Users\user\Downloads\gamedev-intro-tutorials-master\gamedev-intro-tutorials-master\05-ScenceManager\Utils.h(21,19): error C2065: 'string': undeclared identifier
+C:\Users\user\Downloads\gamedev-intro-tutorials-master\gamedev-intro-tutorials-master\05-ScenceManager\Utils.h(21,26): error C2146: syntax error: missing ')' before identifier 'st'
+  Generating Code...

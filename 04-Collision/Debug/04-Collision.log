@@ -1,0 +1,9 @@
+﻿  main.cpp
+C:\Users\user\Downloads\gamedev-intro-tutorials-master\gamedev-intro-tutorials-master\04-Collision\GameMap.h(29,2): warning C4091: 'typedef ': ignored on left of 'Map' when no variable is declared
+C:\Users\user\Downloads\gamedev-intro-tutorials-master\gamedev-intro-tutorials-master\04-Collision\main.cpp(410,20): warning C4018: '<': signed/unsigned mismatch
+C:\Users\user\Downloads\gamedev-intro-tutorials-master\gamedev-intro-tutorials-master\04-Collision\main.cpp(415,20): warning C4018: '<': signed/unsigned mismatch
+C:\Users\user\Downloads\gamedev-intro-tutorials-master\gamedev-intro-tutorials-master\04-Collision\main.cpp(419,20): warning C4018: '<': signed/unsigned mismatch
+C:\Users\user\Downloads\gamedev-intro-tutorials-master\gamedev-intro-tutorials-master\04-Collision\main.cpp(423,20): warning C4018: '<': signed/unsigned mismatch
+C:\Users\user\Downloads\gamedev-intro-tutorials-master\gamedev-intro-tutorials-master\04-Collision\main.cpp(459,21): warning C4018: '<': signed/unsigned mismatch
+C:\Users\user\Downloads\gamedev-intro-tutorials-master\gamedev-intro-tutorials-master\04-Collision\main.cpp(463,21): warning C4018: '<': signed/unsigned mismatch
+  04-Collision.vcxproj -> C:\Users\user\Downloads\gamedev-intro-tutorials-master\gamedev-intro-tutorials-master\Debug\04-Collision.exe

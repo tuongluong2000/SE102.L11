@@ -1,0 +1,11 @@
+﻿  debug.cpp
+  Game.cpp
+  GameObject.cpp
+  General.cpp
+  Items.cpp
+  main.cpp
+  Mario.cpp
+  Sprites.cpp
+  Textures.cpp
+  Generating Code...
+  02-Sprite.vcxproj -> C:\Users\user\Downloads\gamedev-intro-tutorials-master\gamedev-intro-tutorials-master\Debug\02-Sprite.exe
