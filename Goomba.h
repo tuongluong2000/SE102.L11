@@ -22,4 +22,8 @@ class CGoomba : public CGameObject
 
 public: 	
 	virtual void SetState(int state);
+private:
+	int a;
+public:
+	CGoomba(int a) { this->a = a; }
 };

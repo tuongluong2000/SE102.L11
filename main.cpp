@@ -30,8 +30,10 @@
 #include "Mario.h"
 #include "Brick.h"
 #include "Goomba.h"
+#include "Koopa.h"
 #include "GameMap.h"
 #include "CBlock.h"
+#include "Items.h"
 
 #define WINDOW_CLASS_NAME L"SampleWindow"
 #define MAIN_WINDOW_TITLE L"04 - Collision"
@@ -44,14 +46,17 @@
 
 #define ID_TEX_MARIO 0
 #define ID_TEX_ENEMY 10
-#define ID_TEX_MISC 20
-#define ID_MAP 30
+#define ID_TEX_ENEMY1 20
+#define ID_TEX_MISC 30
+#define ID_MAP 40
 
 CGame *game;
 
 CMario *mario;
 CGoomba *goomba;
+Koopa* koopa;
 GameMap *map;
+Items* item;
 
 vector<LPGAMEOBJECT> objects;
 vector<LPGAMEOBJECT> objectsbrick;
@@ -125,6 +130,7 @@ void LoadResources()
 	textures->Add(ID_TEX_MARIO, L"textures\\mario.png",D3DCOLOR_XRGB(255, 255, 255));
 	textures->Add(ID_TEX_MISC, L"textures\\misc.png", D3DCOLOR_XRGB(176, 224, 248));
 	textures->Add(ID_TEX_ENEMY, L"textures\\enemies.png", D3DCOLOR_XRGB(3, 26, 110));
+	textures->Add(ID_TEX_ENEMY1, L"textures\\enemies1.png", D3DCOLOR_XRGB(255,255,255));
 
 
 	textures->Add(ID_TEX_BBOX, L"textures\\bbox.png", D3DCOLOR_XRGB(255, 255, 255));
@@ -162,13 +168,39 @@ void LoadResources()
 
 	LPDIRECT3DTEXTURE9 texMisc = textures->Get(ID_TEX_MISC);
 	sprites->Add(20001, 408, 225, 424, 241, texMisc);
-
+	//items
+	sprites->Add(20002, 300, 117, 316, 133, texMisc);
+	sprites->Add(20003, 318, 117, 334, 133, texMisc);
+	sprites->Add(20004, 336, 117, 352, 133, texMisc);
+	sprites->Add(20005, 354, 117, 370, 133, texMisc);
+	//Goo
 	LPDIRECT3DTEXTURE9 texEnemy = textures->Get(ID_TEX_ENEMY);
+	LPDIRECT3DTEXTURE9 texEnemy1 = textures->Get(ID_TEX_ENEMY1);
 	sprites->Add(30001, 5, 14, 21, 29, texEnemy);
 	sprites->Add(30002, 25, 14, 41, 29, texEnemy);
 
 	sprites->Add(30003, 45, 21, 61, 29, texEnemy); // die sprite
+	//Koopa
+	sprites->Add(40001, 6, 130, 22, 155, texEnemy);
+	sprites->Add(40002, 28, 129, 44, 155, texEnemy);
+	sprites->Add(40011, 458, 130, 474, 155, texEnemy1);//ngược
+	sprites->Add(40012, 436, 129, 452, 155, texEnemy1);
 
+	sprites->Add(40003, 50, 139, 66, 154, texEnemy); // die sprite
+
+	//star
+	sprites->Add(50001, 303, 99, 313, 115, texMisc);
+	sprites->Add(50002, 322, 99, 330, 115, texMisc);
+	sprites->Add(50003, 341, 99, 347, 115, texMisc);
+
+	//mushroom
+	sprites->Add(60001, 300, 189, 316, 205, texMisc);
+
+	//Items die
+	sprites->Add(70001, 372, 117, 388, 133, texMisc);
+
+	// leaf
+	sprites->Add(80001, 300, 208, 316, 222, texMisc);
 
 
 	// map
@@ -184,6 +216,7 @@ void LoadResources()
 	// LOAD BLOCK PIPE miệng cống
 	sprites->Add(4, 112, 0, 128, 16, texMap);
 	sprites->Add(5, 128, 0, 144, 16, texMap);
+	//than cong
 	sprites->Add(6, 160, 0, 176, 16, texMap);
 	sprites->Add(7, 0, 16, 16, 32, texMap);
 
@@ -272,6 +305,50 @@ void LoadResources()
 	ani->Add(30003);
 	animations->Add(702, ani);
 
+	//koopa
+	ani = new CAnimation(300);		
+	ani->Add(40001);
+	ani->Add(40002);
+	animations->Add(901, ani);
+
+	ani = new CAnimation(300);
+	ani->Add(40011);
+	ani->Add(40012);
+	animations->Add(911, ani);
+
+	ani = new CAnimation(1000);		// Koopa dead
+	ani->Add(40003);
+	animations->Add(902, ani);
+
+	//Item
+	ani = new CAnimation(100);	
+	ani->Add(20002);
+	ani->Add(20003);
+	ani->Add(20004);
+	ani->Add(20005);
+	animations->Add(801, ani);
+
+	//star
+	ani = new CAnimation(100);
+	ani->Add(50001);
+	ani->Add(50002);
+	ani->Add(50003);
+	animations->Add(802, ani);
+
+	//mushroom
+	ani = new CAnimation(100);
+	ani->Add(60001);
+	animations->Add(803, ani);
+
+	//items die
+	ani = new CAnimation(100);
+	ani->Add(70001);
+	animations->Add(804, ani);
+
+	//leaf
+	ani = new CAnimation(100);
+	ani->Add(80001);
+	animations->Add(805, ani);
 
 	//ani map duong di 
 	ani = new CAnimation(100);
@@ -292,13 +369,22 @@ void LoadResources()
 	animations->Add(3, ani);
 
 
-
+	//cong
 	ani = new CAnimation(100);
 	ani->Add(4);
-	ani->Add(5);
-	ani->Add(6);
-	ani->Add(7);
 	animations->Add(4, ani);
+
+	ani = new CAnimation(100);
+	ani->Add(5);
+	animations->Add(5, ani);
+
+	ani = new CAnimation(100);
+	ani->Add(6);
+	animations->Add(6, ani);
+
+	ani = new CAnimation(100);
+	ani->Add(7);
+	animations->Add(7, ani);
 
 	ani = new CAnimation(100);
 	ani->Add(9);
@@ -347,59 +433,58 @@ void LoadResources()
 
 
 	// đường đi
-	for (int i = 0; i < 13; i++)
+	//1
+	CBrick* brick1 = new CBrick();
+	brick1->AddAnimation(0);
+	brick1->SetPosition(0 , 416.0f);
+	objects.push_back(brick1);
+	for (int i = 0; i < 37; i++)
 	{
-		CBrick* brick = new CBrick();
 		CBrick* brick1 = new CBrick();
-		CBrick* brick2 = new CBrick();
-		brick->AddAnimation(0);
 		brick1->AddAnimation(1);
-		brick2->AddAnimation(2);
-		brick->SetPosition(0 + i * 48.0f, 416.0f);
-		brick1->SetPosition(16 + i * 48.0f, 416.0f);
-		brick2->SetPosition(32 + i * 48.0f, 416.0f);
-		objects.push_back(brick);
+		brick1->SetPosition(16 + i * 16.0f, 416.0f);
 		objects.push_back(brick1);
-		objects.push_back(brick2);
+		
 	}
-
-	for (int i = 0; i < 10; i++)
+	CBrick* brick2 = new CBrick();
+	brick2->AddAnimation(2);
+	brick2->SetPosition(608, 416.0f);
+	objects.push_back(brick2);
+	//2
+	brick1 = new CBrick();
+	brick1->AddAnimation(0);
+	brick1->SetPosition(624, 400.0f);
+	objects.push_back(brick1);
+	for (int i = 0; i < 28; i++)
 	{
-		CBrick* brick = new CBrick();
 		CBrick* brick1 = new CBrick();
-		CBrick* brick2 = new CBrick();
-		brick->AddAnimation(0);
 		brick1->AddAnimation(1);
-		brick2->AddAnimation(2);
-		brick->SetPosition(608 + i * 48.0f, 400.0f);
-		brick1->SetPosition(624 + i * 48.0f, 400.0f);
-		brick2->SetPosition(640 + i * 48.0f, 400.0f);
-		objects.push_back(brick);
+		brick1->SetPosition(640 + i * 16.0f, 400.0f);
 		objects.push_back(brick1);
-		objects.push_back(brick2);
-	}
 
-	for (int i = 0; i < 7; i++)
+	}
+	brick2 = new CBrick();
+	brick2->AddAnimation(2);
+	brick2->SetPosition(1072, 400.0f);
+	objects.push_back(brick2);
+	//3
+	brick1 = new CBrick();
+	brick1->AddAnimation(0);
+	brick1->SetPosition(1152, 416.0f);
+	objects.push_back(brick1);
+	for (int i = 0; i < 20; i++)
 	{
-		CBrick* brick = new CBrick();
 		CBrick* brick1 = new CBrick();
-		CBrick* brick2 = new CBrick();
-		brick->AddAnimation(0);
 		brick1->AddAnimation(1);
-		brick2->AddAnimation(2);
-		brick->SetPosition(1152 + i * 48.0f, 416.0f);
-		brick1->SetPosition(1168 + i * 48.0f, 416.0f);
-		brick2->SetPosition(1184 + i * 48.0f, 416.0f);
-		objects.push_back(brick);
+		brick1->SetPosition(1168 + i * 16.0f, 416.0f);
 		objects.push_back(brick1);
-		objects.push_back(brick2);
+
 	}
-
-	CBrick* brick = new CBrick();
-	brick->AddAnimation(0);
-	brick->SetPosition(1486, 416.0f);
-	objects.push_back(brick);
-
+	brick2 = new CBrick();
+	brick2->AddAnimation(2);
+	brick2->SetPosition(1488, 416.0f);
+	objects.push_back(brick2);
+	//4
 	for (int i = 0; i < 1; i++)
 	{
 		CBrick* brick = new CBrick();
@@ -415,39 +500,40 @@ void LoadResources()
 		objects.push_back(brick1);
 		objects.push_back(brick2);
 	}
-
-	for (int i = 0; i < 12; i++)
+	//5
+	brick1 = new CBrick();
+	brick1->AddAnimation(0);
+	brick1->SetPosition(1664, 416.0f);
+	objects.push_back(brick1);
+	for (int i = 0; i < 34; i++)
 	{
-		CBrick* brick = new CBrick();
 		CBrick* brick1 = new CBrick();
-		CBrick* brick2 = new CBrick();
-		brick->AddAnimation(0);
 		brick1->AddAnimation(1);
-		brick2->AddAnimation(2);
-		brick->SetPosition(1664 + i * 48.0f, 416.0f);
-		brick1->SetPosition(1680 + i * 48.0f, 416.0f);
-		brick2->SetPosition(1696 + i * 48.0f, 416.0f);
-		objects.push_back(brick);
+		brick1->SetPosition(1680 + i * 16.0f, 416.0f);
 		objects.push_back(brick1);
-		objects.push_back(brick2);
-	}
-	
-	for (int i = 0; i < 11; i++)
-	{
-		CBrick* brick = new CBrick();
-		CBrick* brick1 = new CBrick();
-		CBrick* brick2 = new CBrick();
-		brick->AddAnimation(0);
-		brick1->AddAnimation(1);
-		brick2->AddAnimation(2);
-		brick->SetPosition(2286 + i * 48.0f, 416.0f);
-		brick1->SetPosition(2302 + i * 48.0f, 416.0f);
-		brick2->SetPosition(2318 + i * 48.0f, 416.0f);
-		objects.push_back(brick);
-		objects.push_back(brick1);
-		objects.push_back(brick2);
-	}
 
+	}
+	brick2 = new CBrick();
+	brick2->AddAnimation(2);
+	brick2->SetPosition(2224, 416.0f);
+	objects.push_back(brick2);
+	//6
+	brick1 = new CBrick();
+	brick1->AddAnimation(0);
+	brick1->SetPosition(2256, 416.0f);
+	objects.push_back(brick1);
+	for (int i = 0; i < 32; i++)
+	{
+		CBrick* brick1 = new CBrick();
+		brick1->AddAnimation(1);
+		brick1->SetPosition(2272 + i * 16.0f, 416.0f);
+		objects.push_back(brick1);
+
+	}
+	brick2 = new CBrick();
+	brick2->AddAnimation(2);
+	brick2->SetPosition(2800, 416.0f);
+	objects.push_back(brick2);
 
 	// gạch tren cao
 	
@@ -558,6 +644,7 @@ void LoadResources()
 	objectsbrick.push_back(block);
 
 	// block gach xanh duong
+	//1
 	block = new CBlock(15, 1);
 	block->SetPosition(272, 336);
 	objectsbrick.push_back(block);
@@ -569,46 +656,336 @@ void LoadResources()
 	block = new CBlock(17, 1);
 	block->SetPosition(304, 336);
 	objectsbrick.push_back(block);
+	//2
+	block = new CBlock(15, 1);
+	block->SetPosition(1328, 320);
+	objectsbrick.push_back(block);
+	for (int i = 0; i < 5; i++) {
+		block = new CBlock(16, 1);
+		block->SetPosition(1344 + i * 16, 320);
+		objectsbrick.push_back(block);
+	}
+	block = new CBlock(17, 1);
+	block->SetPosition(1424, 320);
+	objectsbrick.push_back(block);
 
-/*
-	for (int i = 0; i < 5; i++)
+	//Block gach xanh la
+	//1
+	block = new CBlock(9, 1);
+	block->SetPosition(400, 368);
+	objectsbrick.push_back(block);
+	for (int i = 0; i < 3; i++) {
+		block = new CBlock(10, 1);
+		block->SetPosition(416 + i * 16, 368);
+		objectsbrick.push_back(block);
+	}
+	block = new CBlock(11, 1);
+	block->SetPosition(464, 368);
+	objectsbrick.push_back(block);
+	//2
+	block = new CBlock(9, 1);
+	block->SetPosition(512, 384);
+	objectsbrick.push_back(block);
+	for (int i = 0; i < 4; i++) {
+		block = new CBlock(10, 1);
+		block->SetPosition(528 + i * 16, 384);
+		objectsbrick.push_back(block);
+	}
+	block = new CBlock(11, 1);
+	block->SetPosition(592, 384);
+	objectsbrick.push_back(block);
+	//3
+	block = new CBlock(9, 1);
+	block->SetPosition(1264, 384);
+	objectsbrick.push_back(block);
+	for (int i = 0; i < 5; i++) {
+		block = new CBlock(10, 1);
+		block->SetPosition(1280 + i * 16, 384);
+		objectsbrick.push_back(block);
+	}
+	block = new CBlock(11, 1);
+	block->SetPosition(1360, 384);
+	objectsbrick.push_back(block);
+	//4
+	block = new CBlock(9, 1);
+	block->SetPosition(2176, 272);
+	objectsbrick.push_back(block);
+	for (int i = 0; i < 1; i++) {
+		block = new CBlock(10, 1);
+		block->SetPosition(2192 + i * 16, 272);
+		objectsbrick.push_back(block);
+	}
+	block = new CBlock(11, 1);
+	block->SetPosition(2208, 272);
+	objectsbrick.push_back(block);
+
+	//Block gach trang
+	block = new CBlock(18, 1);
+	block->SetPosition(512, 304);
+	objectsbrick.push_back(block);
+	for (int i = 0; i < 2; i++) {
+		block = new CBlock(19, 1);
+		block->SetPosition(528 + i * 16, 304);
+		objectsbrick.push_back(block);
+	}
+	block = new CBlock(20, 1);
+	block->SetPosition(560, 304);
+	objectsbrick.push_back(block);
+
+	//brick cong
+	// 1
+	for (int i = 0; i < 1; i++)
 	{
-		CBrick *brick = new CBrick();
-		brick->AddAnimation(601);
-		brick->SetPosition(100.0f + i*60.0f, 74.0f);
+		CBrick* brick = new CBrick();
+		CBrick* brick1 = new CBrick();
+		brick->AddAnimation(4);
+		brick1->AddAnimation(5);
+		brick->SetPosition(352.0f , 368.0f);
+		brick1->SetPosition(368.0f, 368.0f);
 		objects.push_back(brick);
+		objects.push_back(brick1);
+	}
 
-		brick = new CBrick();
-		brick->AddAnimation(601);
-		brick->SetPosition(100.0f + i*60.0f, 90.0f);
+	for (int i = 0; i < 2; i++)
+	{
+		CBrick* brick = new CBrick();
+		CBrick* brick1 = new CBrick();
+		brick->AddAnimation(6);
+		brick1->AddAnimation(7);
+		brick->SetPosition(352.0f, 384.0f+i*16.0f);
+		brick1->SetPosition(368.0f, 384.0f+i*16.0f);
 		objects.push_back(brick);
+		objects.push_back(brick1);
+	}
+	//2
+	for (int i = 0; i < 1; i++)
+	{
+		CBrick* brick = new CBrick();
+		CBrick* brick1 = new CBrick();
+		brick->AddAnimation(4);
+		brick1->AddAnimation(5);
+		brick->SetPosition(1792.0f, 384.0f);
+		brick1->SetPosition(1808.0f, 384.0f);
+		objects.push_back(brick);
+		objects.push_back(brick1);
+	}
 
-		brick = new CBrick();
-		brick->AddAnimation(601);
-		brick->SetPosition(84.0f + i*60.0f, 90.0f);
+	for (int i = 0; i < 1; i++)
+	{
+		CBrick* brick = new CBrick();
+		CBrick* brick1 = new CBrick();
+		brick->AddAnimation(6);
+		brick1->AddAnimation(7);
+		brick->SetPosition(1792.0f, 400.0f + i * 16.0f);
+		brick1->SetPosition(1808.0f, 400.0f + i * 16.0f);
+		objects.push_back(brick);
+		objects.push_back(brick1);
+	}
+	//3
+	for (int i = 0; i < 1; i++)
+	{
+		CBrick* brick = new CBrick();
+		CBrick* brick1 = new CBrick();
+		brick->AddAnimation(4);
+		brick1->AddAnimation(5);
+		brick->SetPosition(1856.0f, 368.0f);
+		brick1->SetPosition(1872.0f, 368.0f);
+		objects.push_back(brick);
+		objects.push_back(brick1);
+	}
+
+	for (int i = 0; i < 2; i++)
+	{
+		CBrick* brick = new CBrick();
+		CBrick* brick1 = new CBrick();
+		brick->AddAnimation(6);
+		brick1->AddAnimation(7);
+		brick->SetPosition(1856.0f, 384.0f + i * 16.0f);
+		brick1->SetPosition(1872.0f, 384.0f + i * 16.0f);
+		objects.push_back(brick);
+		objects.push_back(brick1);
+	}
+	//4
+	for (int i = 0; i < 1; i++)
+	{
+		CBrick* brick = new CBrick();
+		CBrick* brick1 = new CBrick();
+		brick->AddAnimation(4);
+		brick1->AddAnimation(5);
+		brick->SetPosition(2256.0f, 112.0f);
+		brick1->SetPosition(2272.0f, 112.0f);
+		objects.push_back(brick);
+		objects.push_back(brick1);
+	}
+
+	for (int i = 0; i < 11; i++)
+	{
+		CBrick* brick = new CBrick();
+		CBrick* brick1 = new CBrick();
+		brick->AddAnimation(6);
+		brick1->AddAnimation(7);
+		brick->SetPosition(2256.0f, 128.0f + i * 16.0f);
+		brick1->SetPosition(2272.0f, 128.0f + i * 16.0f);
+		objects.push_back(brick);
+		objects.push_back(brick1);
+	}
+
+	for (int i = 0; i < 2; i++)
+	{
+		CBrick* brick = new CBrick();
+		CBrick* brick1 = new CBrick();
+		brick->AddAnimation(6);
+		brick1->AddAnimation(7);
+		brick->SetPosition(2256.0f, 384.0f + i * 16.0f);
+		brick1->SetPosition(2272.0f, 384.0f + i * 16.0f);
+		objects.push_back(brick);
+		objects.push_back(brick1);
+	}
+	//5
+	for (int i = 0; i < 1; i++)
+	{
+		CBrick* brick = new CBrick();
+		CBrick* brick1 = new CBrick();
+		brick->AddAnimation(4);
+		brick1->AddAnimation(5);
+		brick->SetPosition(2320.0f, 384.0f);
+		brick1->SetPosition(2336.0f, 384.0f);
+		objects.push_back(brick);
+		objects.push_back(brick1);
+	}
+
+	for (int i = 0; i < 1; i++)
+	{
+		CBrick* brick = new CBrick();
+		CBrick* brick1 = new CBrick();
+		brick->AddAnimation(6);
+		brick1->AddAnimation(7);
+		brick->SetPosition(2320.0f, 400.0f + i * 16.0f);
+		brick1->SetPosition(2336.0f, 400.0f + i * 16.0f);
+		objects.push_back(brick);
+		objects.push_back(brick1);
+	}
+
+	//Items
+	//1
+	
+
+	for (int i = 0; i < 2; i++)
+	{
+		item = new Items(1-i,0);
+		item->AddAnimation(801);
+		item->AddAnimation(802);
+		item->AddAnimation(803);
+		item->AddAnimation(804);
+		item->SetPosition(176 , 352);
+		item->SetState(ITEMS_STATE_WALKING);
+		objects.push_back(item);
+	}
+	//
+	for (int i = 0; i < 2; i++)
+	{
+		item = new Items(1-i, 0);
+		item->AddAnimation(801);
+		item->AddAnimation(802);
+		item->AddAnimation(803);
+		item->AddAnimation(804);
+		item->SetPosition(192, 352);
+		item->SetState(ITEMS_STATE_WALKING);
+		objects.push_back(item);
+	}
+
+	//2
+	for (int i = 0; i < 2; i++)
+	{
+		item = new Items(1 - i, 0);
+		item->AddAnimation(801);
+		item->AddAnimation(802);
+		item->AddAnimation(803);
+		item->AddAnimation(804);
+		item->AddAnimation(805);
+		item->SetPosition(224, 304);
+		item->SetState(ITEMS_STATE_WALKING);
+		objects.push_back(item);
+	}
+	for (int i = 0; i < 2; i++)
+	{
+		item = new Items(1 - i, 1-i);
+		item->AddAnimation(801);
+		item->AddAnimation(802);
+		item->AddAnimation(803);
+		item->AddAnimation(804);
+		item->AddAnimation(805);
+		item->SetPosition(240, 304);
+		item->SetState(ITEMS_STATE_WALKING);
+		objects.push_back(item);
+	}
+	//3
+	for (int i = 0; i < 1; i++)
+	{
+		CBrick* brick = new CBrick();
+		brick->AddAnimation(801);
+		brick->SetPosition(416 + i * 16, 320);
+		objects.push_back(brick);
+	}
+	//4
+	for (int i = 0; i < 1; i++)
+	{
+		CBrick* brick = new CBrick();
+		brick->AddAnimation(801);
+		brick->SetPosition(656 + i * 16, 384);
+		objects.push_back(brick);
+	}
+	//5
+	for (int i = 0; i < 1; i++)
+	{
+		CBrick* brick = new CBrick();
+		brick->AddAnimation(801);
+		brick->SetPosition(704 + i * 16, 352);
 		objects.push_back(brick);
 	}
 
-
-	for (int i = 0; i < 30; i++)
-	{
-		CBrick *brick = new CBrick();
-		brick->AddAnimation(601);
-		brick->SetPosition(0 + i*16.0f, 150);
-		objects.push_back(brick);
-	}
-*/
 	// and Goombas 
 	for (int i = 0; i < 1; i++)
 	{
-		goomba = new CGoomba();
+		goomba = new CGoomba(0);
 		goomba->AddAnimation(701);
 		goomba->AddAnimation(702);
-		goomba->SetPosition(200 + i*60, 401);
+		goomba->SetPosition(224 + i*60, 401);
 		goomba->SetState(GOOMBA_STATE_WALKING);
 		objects.push_back(goomba);
 	}
-	
+	//2
+	for (int i = 0; i < 1; i++)
+	{
+		goomba = new CGoomba(1);
+		goomba->AddAnimation(701);
+		goomba->AddAnimation(702);
+		goomba->SetPosition(544 + i * 60, 401);
+		goomba->SetState(GOOMBA_STATE_WALKING);
+		objects.push_back(goomba);
+	}
+	//3
+	for (int i = 0; i < 2; i++)
+	{
+		goomba = new CGoomba(2);
+		goomba->AddAnimation(701);
+		goomba->AddAnimation(702);
+		goomba->SetPosition(832 + i * 48, 383);
+		goomba->SetState(GOOMBA_STATE_WALKING);
+		objects.push_back(goomba);
+	}
+
+	//Koopa
+	for (int i = 0; i < 1; i++)
+	{
+		koopa = new Koopa(1);
+		koopa->AddAnimation(901);
+		koopa->AddAnimation(902);
+		koopa->AddAnimation(911);
+		koopa->SetPosition(576 + i * 48, 359);
+		koopa->SetState(KOOPA_STATE_WALKING);
+		objects.push_back(koopa);
+	}
 
 }
 

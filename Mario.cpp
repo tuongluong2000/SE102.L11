@@ -5,8 +5,10 @@
 #include "Game.h"
 
 #include "Goomba.h"
+#include "Koopa.h"
 #include "Brick.h"
 #include "CBlock.h"
+#include "Items.h"
 
 void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 {
@@ -73,7 +75,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 					if (goomba->GetState()!= GOOMBA_STATE_DIE)
 					{
 						goomba->SetState(GOOMBA_STATE_DIE);
-						vy = -MARIO_JUMP_DEFLECT_SPEED;
+						//vy = -MARIO_JUMP_DEFLECT_SPEED;
 					}
 				}
 				else if (e->nx != 0)
@@ -94,22 +96,127 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 				}
 
 			}
-
 			else
 			{
-				if (dynamic_cast<CBlock*>(e->obj)) 
+				//KOOPA
+				if (dynamic_cast<Koopa*>(e->obj)) // if e->obj is Goomba 
 				{
-					x = x + dx - min_tx * dx + nx * 0.4f;
-					y = y + dy - min_ty * dy + ny * 0.4f;
-					CBlock* block = dynamic_cast<CBlock*>(e->obj);
-					if (block->GetTypeBlock() == 1) {
-						if (e->ny == -1) {
-							vy = 0;
-							y = y0 + min_ty * dy + e->ny * 0.4f;
+
+
+					Koopa* koopa = dynamic_cast<Koopa*>(e->obj);
+
+					// jump on top >> kill Goomba and deflect a bit 
+					if (e->ny < 0)
+					{
+						if (koopa->GetState() != KOOPA_STATE_DIE)
+						{
+							koopa->SetState(KOOPA_STATE_DIE);
+							//vy = -MARIO_JUMP_DEFLECT_SPEED;
+						}
+					}
+					else if (e->nx != 0)
+					{
+						if (untouchable == 0)
+						{
+							if (koopa->GetState() != KOOPA_STATE_DIE)
+							{
+								if (level > MARIO_LEVEL_SMALL)
+								{
+									level = MARIO_LEVEL_SMALL;
+									StartUntouchable();
+								}
+								else
+									SetState(MARIO_STATE_DIE);
+							}
+						}
+					}
+				}
+				else
+				{
+					//BLOCK
+					if (dynamic_cast<CBlock*>(e->obj)) 
+					{
+						x = x + dx - min_tx * dx + nx * 0.4f;
+						y = y + dy - min_ty * dy + ny * 0.4f;
+						CBlock* block = dynamic_cast<CBlock*>(e->obj);
+						if (block->GetTypeBlock() == 1) 
+						{
+							if (e->ny == -1) 
+							{
+								vy = 0;
+								y = y0 + min_ty * dy + e->ny * 0.4f;
+							}
+						}
+					}
+					else
+					{   // Items
+						if (dynamic_cast<Items*>(e->obj))
+						{
+							Items* item = dynamic_cast<Items*>(e->obj);
+							if (e->ny > 0)
+							{
+								if (item->GetA() == 1)
+								{
+									if (item->GetB() == 0)
+									{
+										if (item->GetState() != ITEMS_STATE_STAR)
+										{
+											item->SetState(ITEMS_STATE_STAR);
+											//vy = -MARIO_JUMP_DEFLECT_SPEED;
+										}
+									}
+									else
+									{
+										if (item->GetB() == 1)
+										{
+											if (level > MARIO_LEVEL_SMALL)
+											{
+												if (item->GetState() != ITEMS_STATE_LEAF)
+												{
+													item->SetState(ITEMS_STATE_LEAF);
+													//vy = -MARIO_JUMP_DEFLECT_SPEED;
+												}
+											}
+											else
+											{
+												if (item->GetState() != ITEMS_STATE_MUSHROOM)
+												{
+													item->SetState(ITEMS_STATE_MUSHROOM);
+													//vy = -MARIO_JUMP_DEFLECT_SPEED;
+												}
+											}
+										}
+									}
+								}
+								if (item->GetA() == 0)
+								{
+
+
+									if (item->GetState() != ITEMS_STATE_DIE)
+									{
+										item->SetState(ITEMS_STATE_DIE);
+										//vy = -MARIO_JUMP_DEFLECT_SPEED;
+									}
+
+								}
+							}
+							if (e->nx != 0||e->ny>=0)
+							{
+								if (item->GetState() == ITEMS_STATE_MUSHROOM)
+								{
+									if (level == MARIO_LEVEL_SMALL)
+									{
+										level = MARIO_LEVEL_BIG;
+										StartUntouchable();
+									}
+								}
+							}
 						}
 					}
 				}
 			}
+			
+			
 		}
 	}
 
