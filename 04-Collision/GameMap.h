@@ -6,7 +6,8 @@
 #define SCREEN_WIDTH 320
 #define SCREEN_HEIGHT 240
 
-
+#define TILE_WIDTH 16
+#define TILE_HEIGHT 16
 
 #define TILE_ZISE_X 11
 #define TILE_ZISE_Y 12
@@ -59,11 +60,13 @@ public:
 	void DrawTiles(int val, float x, float y);
 	void Render() ;
 	void GetBoundingBox(float& left, float& top, float& right, float& bottom) { return; }
+	float getMapWidth();
+	float getMapHeight();
 	
 private: 
 	Map game_map;
 	LPDIRECT3DTEXTURE9 TileSetImg;
-
+	int TotalRowsOfMap, TotalColumnsOfMap;
 	vector<int> datamap;
 
 };

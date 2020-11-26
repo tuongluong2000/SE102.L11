@@ -13,7 +13,6 @@ using namespace std;
 
 class CGameObject; 
 typedef CGameObject * LPGAMEOBJECT;
-typedef CGameObject* LPGAMEOBJECT1;
 
 struct CCollisionEvent;
 typedef CCollisionEvent * LPCOLLISIONEVENT;
@@ -35,6 +34,7 @@ class CGameObject
 {
 public:
 
+	bool isDisable = false;
 	float x; 
 	float y;
 
@@ -44,9 +44,11 @@ public:
 	float vx;
 	float vy;
 
-	int nx;	 
+	int nx;	
+	
 
 	int state;
+	boolean Hold=false;
 
 	DWORD dt; 
 
@@ -59,6 +61,7 @@ public:
 	void GetSpeed(float &vx, float &vy) { vx = this->vx; vy = this->vy; }
 
 	int GetState() { return this->state; }
+	boolean GetHold() { return this->Hold; }
 
 	void RenderBoundingBox();
 
@@ -80,7 +83,7 @@ public:
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects = NULL);
 	virtual void Render() = 0;
 	virtual void SetState(int state) { this->state = state; }
-
+	virtual void SetHold(boolean hold) { this->Hold = hold; }
 
 	~CGameObject();
 };

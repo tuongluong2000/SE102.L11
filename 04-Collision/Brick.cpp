@@ -6,12 +6,7 @@ void CBrick::Render()
 	//RenderBoundingBox();
 }
 
-void CBrick::Update(DWORD dt, vector<LPCBRICK>* coObjects)
-{
-	this->dt = dt;
-	dx = vx * dt;
-	dy = vy * dt;
-}
+
 void CBrick::GetBoundingBox(float &l, float &t, float &r, float &b)
 {
 	l = x;

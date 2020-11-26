@@ -19,17 +19,7 @@ void GameMap::LoadMap(char* name)
 		{
 			fscanf_s(fp, "%d", &game_map.tile[i][j]);
 			int val = game_map.tile[i][j];
-			if (val > 0)
-			{
-				if (j > game_map.MAP_X)
-				{
-					game_map.MAP_X = j;
-				}
-				if (i > game_map.MAP_Y)
-				{
-					game_map.MAP_Y = i;
-				}
-			}
+
 			if (val != NULL)
 			{
 				datamap.push_back(val);
@@ -74,4 +64,11 @@ void GameMap::Render()
 		}
 	}
 
+}
+float GameMap::getMapWidth() {
+	return MAX_MAP_X * TILE_WIDTH;
+}
+
+float GameMap::getMapHeight() {
+	return MAX_MAP_Y * TILE_HEIGHT;
 }
