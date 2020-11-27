@@ -334,6 +334,9 @@ void LoadResources()
 	sprites->Add(19, 144, 48, 160, 64, texMap);
 	sprites->Add(20, 160, 48, 176, 64, texMap);
 
+	// gach mây 
+	sprites->Add(21, 16, 32, 32, 48, texMap);
+
 
 	
 	LPANIMATION ani;
@@ -566,6 +569,11 @@ void LoadResources()
 	ani->Add(7);
 	animations->Add(7, ani);
 
+	// duong tren may
+	ani = new CAnimation(100);
+	ani->Add(21);
+	animations->Add(21, ani);
+
 	ani = new CAnimation(100);
 	ani->Add(9);
 	ani->Add(10);
@@ -728,6 +736,24 @@ void LoadResources()
 	brick2->SetPosition(2800, 416.0f);
 	objects.push_back(brick2);
 
+	// duong tren mây
+	for (int i = 0; i < 4; i++)
+	{
+		CBrick* brick1 = new CBrick();
+		brick1->AddAnimation(21);
+		brick1->SetPosition(1408 + i * 16.0f, 192.0f);
+		objects.push_back(brick1);
+	}
+
+	for (int i = 0; i < 13; i++)
+	{
+		CBrick* brick1 = new CBrick();
+		brick1->AddAnimation(21);
+		brick1->SetPosition(1488 + i * 16.0f, 176.0f);
+		objects.push_back(brick1);
+	}
+	
+
 	// gạch tren cao
 	
 	for (int i = 0; i < 2; i++)
@@ -834,6 +860,19 @@ void LoadResources()
 	}
 	block = new CBlock(14, 1);
 	block->SetPosition(2176, 368);
+	objectsbrick.push_back(block);
+
+	//5 tren cao 
+	block = new CBlock(12, 1);
+	block->SetPosition(1312, 144);
+	objectsbrick.push_back(block);
+	for (int i = 0; i < 2; i++) {
+		block = new CBlock(13, 1);
+		block->SetPosition(1328 + i * 16, 144);
+		objectsbrick.push_back(block);
+	}
+	block = new CBlock(14, 1);
+	block->SetPosition(1360, 144);
 	objectsbrick.push_back(block);
 
 	// block gach xanh duong
