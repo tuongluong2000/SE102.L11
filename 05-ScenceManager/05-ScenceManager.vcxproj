@@ -126,6 +126,10 @@
   <ItemGroup>
     <ClCompile Include="Animations.cpp" />
     <ClCompile Include="Brick.cpp" />
+    <ClCompile Include="CBlock.cpp" />
+    <ClCompile Include="CBulletFire.cpp" />
+    <ClCompile Include="GameMap.cpp" />
+    <ClCompile Include="Items.cpp" />
     <ClCompile Include="Koopas.cpp" />
     <ClCompile Include="Portal.cpp" />
     <ClCompile Include="Utils.cpp" />
@@ -142,6 +146,10 @@
   <ItemGroup>
     <ClInclude Include="Animations.h" />
     <ClInclude Include="Brick.h" />
+    <ClInclude Include="CBlock.h" />
+    <ClInclude Include="CBulletFire.h" />
+    <ClInclude Include="GameMap.h" />
+    <ClInclude Include="Items.h" />
     <ClInclude Include="Koopas.h" />
     <ClInclude Include="Portal.h" />
     <ClInclude Include="Utils.h" />
