@@ -1,7 +1,7 @@
 #pragma once
 #include "GameObject.h"
 #include "Koopas.h"
-//#include "BulletFire.h"
+#include "CBulletFire.h"
 
 
 #define MARIO_WALKING_SPEED		0.01f 
@@ -17,9 +17,10 @@
 #define SPEED_FIRE_X     0.05f
 
 #define MARIO_JUMP_SPEED_Y		0.25f
+#define MARIO_FLY_SPEED_Y		0.15f
 #define MARIO_JUMP_DEFLECT_SPEED 0.2f
-#define MARIO_GRAVITY			0.0003f
-#define MARIO_DIE_DEFLECT_SPEED	 0.5f
+#define MARIO_GRAVITY			0.0002f
+#define MARIO_DIE_DEFLECT_SPEED	 0.05f
 
 #define MARIO_STATE_IDLE			0
 #define MARIO_STATE_WALKING_RIGHT	100
@@ -82,6 +83,7 @@
 
 #define MARIO_UNTOUCHABLE_TIME 5000
 #define MARIO_FLY_TIME 3000
+#define MARIO_FLY_GRAVITY_TIME 200
 #define DIE_TIME 100
 
 #define MARIO_SHOT_COOLDOWN_TIME 500
@@ -97,6 +99,7 @@ class CMario : public CGameObject
 	int untouchable;
 	DWORD untouchable_start;
 	DWORD fly_start;
+	DWORD fly;
 	bool hold = false;
 	bool Runhold = false;
 	bool run = false;
@@ -105,7 +108,7 @@ class CMario : public CGameObject
 public:
 	CMario() : CGameObject()
 	{
-		level = MARIO_LEVEL_RACCOON;
+		level = MARIO_LEVEL_FIRE;
 		untouchable = 0;
 		lastShotTime = 0;
 	}
@@ -124,23 +127,34 @@ public:
 	float GetY() { return y; }
 	void LevelUp() { if (level < MARIO_LEVEL_FIRE) level++; }
 	void LevelDo() { if (level > MARIO_LEVEL_SMALL) level--; }
+	void LevelDie();
 	void Fly();
 	void K();
 	void J();
 	void StopFly() {
-		BolFlyUp = true;
-		vy = MARIO_WALKING_SPEED;
+		if (level == MARIO_LEVEL_RACCOON)
+		{
+			BolFlyUp = true;
+			if ((GetTickCount() - fly_start < MARIO_FLY_TIME))
+				fly = GetTickCount();
+		}
+		if (vy <= 0)
+			vy = MARIO_WALKING_SPEED;
 	}
 	void Setnx(int nx) { this->nx = nx; }
-	void Run() { run = true; };
+	void Run() {
+		run = true;
+		if (run ==true)
+			HoldKoopa();
+	};
 	void StopRun() { run = false; }
 	void RunWalk() { if (runwalk == false) runwalk = true; }
 	void StopWalk()
 	{
 		runwalk = false;
 	}
-	void Shot();
-	void StopShot() { Bolfire = false; }
+	void Bullet();
+	void StopBullet() { Bolfire = false; }
 	void Reset() {
 		SetState(MARIO_STATE_IDLE);
 		//LevelUp();
@@ -156,8 +170,8 @@ public:
 private:
 	CKoopas* koopa;
 	int ny;
-	//CBulletFire* bullet;
+	CBulletFire* bullet;
 	vector<LPGAMEOBJECT> bullets;
-	DWORD lastShotTime;
+	DWORD lastShotTime = 0;
 
 };

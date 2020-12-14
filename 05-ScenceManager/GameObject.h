@@ -58,6 +58,7 @@ public:
 
 	int state;
 
+	bool die;
 	DWORD dt; 
 
 	LPANIMATION_SET animation_set;
@@ -69,7 +70,7 @@ public:
 	void GetSpeed(float &vx, float &vy) { vx = this->vx; vy = this->vy; }
 
 	int GetState() { return this->state; }
-
+	bool GetDie() { return die; }
 	void RenderBoundingBox();
 
 	void SetAnimationSet(LPANIMATION_SET ani_set) { animation_set = ani_set; }

@@ -249,6 +249,9 @@ void CPlayScene::Update(DWORD dt)
 
 	for (size_t i = 0; i < objects.size(); i++)
 	{
+		if (objects[i]->GetDie() == true)
+			objects.erase(objects.begin() + i);
+		else 
 		objects[i]->Update(dt, &coObjects);
 	}
 
@@ -311,6 +314,9 @@ void CPlayScenceKeyHandler::OnKeyDown(int KeyCode)
 	case DIK_J:
 		mario->Run();
 		break;
+	case DIK_H:
+		mario->Bullet();
+		break;
 
 	}
 }
@@ -331,6 +337,9 @@ void CPlayScenceKeyHandler::OnKeyUp(int KeyCode)
 		break;
 	case DIK_A:
 		mario->StopWalk();
+		break;
+	case DIK_H:
+		mario->StopBullet();
 		break;
 	}
 }

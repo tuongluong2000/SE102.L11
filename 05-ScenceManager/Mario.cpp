@@ -18,20 +18,14 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
 	// Calculate dx, dy 
 	CGameObject::Update(dt);
-	/*for (int i = 0; i < bullets.size(); i++) {
-		if (!bullets[i]->isDisable)
-			bullets[i]->Update(dt, coObjects);
-	}
-
-	for (int i = 0; i < bullets.size(); i++) {
-		if (bullets[i]->isDisable) {
-			CGameObject* p = bullets[i];
-			bullets.erase(bullets.begin() + i);
-			delete p;
+	
+		for (int i = 0; i < bullets.size(); i++) {
+			if (bullets[i]->GetDie() == true)
+				bullets.erase(bullets.begin() + i);
+			else
+				bullets[i]->Update(dt, coObjects);
 		}
-
-	}*/
-	if (run == false)
+	if (run == false || (run == true && runwalk == false))
 	{
 		if (nx == 1)
 		{
@@ -81,8 +75,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			}
 		}
 	}
-	// Run
-	if (run == true && runwalk == true)
+	else if (run == true && runwalk == true )
 	{
 		if (GetState() == MARIO_STATE_WALKING_RIGHT)
 		{
@@ -122,7 +115,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 					this->koopa->SetPosition(x - 18.0f, y + 3.0f);
 			}
 		}
-		if (Runhold == false && hold == false && this->koopa->GetState() == KOOPA_STATE_DIE_HOLD)
+		if ((Runhold == false && hold == false && this->koopa->GetState() == KOOPA_STATE_DIE_HOLD) || run ==false)
 		{
 			if (nx == 1)
 				this->koopa->SetState(KOOPA_STATE_DIE_RUN_RIGHT);
@@ -134,8 +127,10 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	}
 
 	// Simple fall down
+	if (GetTickCount()- fly >= MARIO_FLY_GRAVITY_TIME )
+		vy += MARIO_GRAVITY * dt;
 
-	if (vx == 0)
+	if (vx == 0 && GetState()!= MARIO_STATE_DIE)
 		SetState(MARIO_STATE_IDLE);
 
 	vector<LPCOLLISIONEVENT> coEvents;
@@ -160,7 +155,6 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 		x += dx;
 		y += dy;
-		vy += MARIO_GRAVITY * dt;
 		this->ny = 1;
 	}
 	else
@@ -209,7 +203,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				CGoomba* goomba = dynamic_cast<CGoomba*>(e->obj);
 
 				// jump on top >> kill Goomba and deflect a bit 
-				if (goomba->GetState() != GOOMBA_STATE_DIE)
+				if (goomba->GetState() == GOOMBA_STATE_WALKING)
 				{
 					if (e->ny < 0)
 					{
@@ -218,23 +212,14 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 					}
 					else if (e->nx != 0)
 					{
-						if (untouchable == 0)
+						if (goomba->GetState() != GOOMBA_STATE_DIE)
 						{
-							if (goomba->GetState() != GOOMBA_STATE_DIE)
-							{
-								if (level > MARIO_LEVEL_SMALL)
-								{
-									level = level - 1;
-									StartUntouchable();
-								}
-								else
-									SetState(MARIO_STATE_DIE);
-							}
+							LevelDie();
 						}
 					}
 				}
 
-
+				 
 
 			}
 			else
@@ -255,18 +240,9 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 							//vy = -MARIO_JUMP_DEFLECT_SPEED;
 
 						}
-						else if (untouchable == 0)
+						else if (koopa->GetState() == KOOPA_STATE_DIE_RUN_RIGHT || koopa->GetState() == KOOPA_STATE_DIE_RUN_LEFT)
 						{
-							if (koopa->GetState() == KOOPA_STATE_DIE_RUN_RIGHT || koopa->GetState() == KOOPA_STATE_DIE_RUN_LEFT)
-							{
-								if (level > MARIO_LEVEL_SMALL)
-								{
-									level--;
-									StartUntouchable();
-								}
-								else
-									SetState(MARIO_STATE_DIE);
-							}
+							LevelDie();
 						}
 
 					}
@@ -284,7 +260,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 								else
 									SetState(MARIO_STATE_DIE);
 							}
-							else if (hold == true)
+							else if (hold == true && run == true)
 							{
 								if (koopa->GetState() != KOOPA_STATE_DIE_HOLD)
 								{
@@ -396,10 +372,9 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 void CMario::Render()
 {
-	/*for (int i = 0; i < bullets.size(); i++) {
-		if (!bullets[i]->isDisable)
+	for (int i = 0; i < bullets.size(); i++) {
 			bullets[i]->Render();
-	}*/
+	}
 
 	int ani=-1;
 	
@@ -499,6 +474,7 @@ void CMario::SetState(int state)
 		break;
 	case MARIO_STATE_JUMP:
 		vy = -MARIO_JUMP_SPEED_Y;
+		break;
 	case MARIO_STATE_IDLE:
 		vx = 0;
 		break;
@@ -507,12 +483,12 @@ void CMario::SetState(int state)
 		break;
 	case MARIO_STATE_FLY_RIGHT:
 		vx = MARIO_FLY_X;
-		vy = -MARIO_JUMP_SPEED_Y;
+		vy = -MARIO_FLY_SPEED_Y;
 		nx = 1;
 		break;
 	case MARIO_STATE_FLY_LEFT:
 		vx = -MARIO_FLY_X;
-		vy = -MARIO_JUMP_SPEED_Y;
+		vy = -MARIO_FLY_SPEED_Y;
 		nx = -1;
 		break;
 	}
@@ -567,9 +543,9 @@ void CMario::HoldKoopa()
 
 void CMario::K()
 {
-	if( ((vx > MARIO_SPEED_MAX_FLY) || (vx < -MARIO_SPEED_MAX_FLY)|| BolFLy == true) && level == MARIO_LEVEL_RACCOON)
+	if(((vx > MARIO_SPEED_MAX_FLY) || (vx < -MARIO_SPEED_MAX_FLY) || BolFLy == true)&& level == MARIO_LEVEL_RACCOON)
 	{
-		Fly();
+			Fly();
 	}
 	else if(BolFlyDo == true)
 	{
@@ -580,52 +556,68 @@ void CMario::K()
 }
 
 void CMario::Fly()
-{		
-	if ((nx == 1 && vx >= MARIO_SPEED_MAX_FLY) || (vx <= -MARIO_SPEED_MAX_FLY && nx == -1))
+{	
+	if (level == MARIO_LEVEL_RACCOON)
 	{
-		fly_start = GetTickCount();
-		BolFLy = true;
-		BolFlyUp = true;
-	}
-	if (BolFLy == true)
-	{
-		if ((GetTickCount() - fly_start < MARIO_FLY_TIME) )
+		if ((nx == 1 && vx >= MARIO_SPEED_MAX_FLY) || (vx <= -MARIO_SPEED_MAX_FLY && nx == -1))
 		{
-			if (BolFlyUp == true)
+			fly_start = GetTickCount();
+			BolFLy = true;
+			BolFlyUp = true;
+		}
+		if (BolFLy == true)
+		{
+			if ((GetTickCount() - fly_start < MARIO_FLY_TIME))
+			{
+				if (BolFlyUp == true)
+				{
+					if (nx == 1)
+						SetState(MARIO_STATE_FLY_RIGHT);
+					else if (nx == -1)
+						SetState(MARIO_STATE_FLY_LEFT);
+				}
+			}
+			else
 			{
 				if (nx == 1)
 					SetState(MARIO_STATE_FLY_RIGHT);
 				else if (nx == -1)
 					SetState(MARIO_STATE_FLY_LEFT);
+				vy = MARIO_WALKING_SPEED;
 			}
 		}
-		else
-		{
-			if (nx == 1)
-				SetState(MARIO_STATE_FLY_RIGHT);
-			else if (nx == -1)
-				SetState(MARIO_STATE_FLY_LEFT);
-			vy = MARIO_WALKING_SPEED;
-		}
+		BolFlyUp = false;
 	}
-	BolFlyUp = false;
 	
 }
 
-//void CMario::Bullet() {
-//	if (GetTickCount() - lastShotTime >= MARIO_SHOT_COOLDOWN_TIME && this->level == MARIO_LEVEL_FIRE) {
-//		lastShotTime = GetTickCount();
-//		bullet = new CBulletFire();
-//		bullet->AddAnimation(508);
-//		bullet->AddAnimation(508);
-//		if (nx > 0) {
-//			bullet->SetPosition(this->x + 7.0f, this->y + 5.0f);
-//			bullet->SetState(BULLETFIRE_STATE_WALKING_RIGHT);
-//		}
-//		else {
-//			bullet->SetPosition(this->x - 7.0f, this->y + 5.0f);
-//			bullet->SetState(BULLETFIRE_STATE_WALKING_LEFT);
-//		}
-//		bullets.push_back(bullet);
-//	}
-//}
+void CMario::Bullet() {
+	if (level == MARIO_LEVEL_FIRE) 
+	{
+		lastShotTime = GetTickCount();
+		bullet = new CBulletFire();
+		if (nx > 0) {
+			bullet->SetPosition(this->x + 7.0f, this->y + 5.0f);
+			bullet->SetState(BULLETFIRE_STATE_WALKING_RIGHT);
+		}
+		else {
+			bullet->SetPosition(this->x - 7.0f, this->y + 5.0f);
+			bullet->SetState(BULLETFIRE_STATE_WALKING_LEFT);
+		}
+		bullets.push_back(bullet);
+	}
+}
+
+void CMario::LevelDie()
+{
+	if (untouchable == 0)
+	{
+		if (level > MARIO_LEVEL_SMALL)
+		{
+			level = level - 1;
+			StartUntouchable();
+		}
+		else
+			SetState(MARIO_STATE_DIE);
+	}
+}
